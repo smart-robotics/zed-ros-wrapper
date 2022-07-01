@@ -30,9 +30,9 @@
 #include <ros/console.h>
 #endif
 
-#include "zed_interfaces/Object.h"
-#include "zed_interfaces/ObjectsStamped.h"
-#include <zed_interfaces/PlaneStamped.h>
+#include "sr_zed_interfaces/Object.h"
+#include "sr_zed_interfaces/ObjectsStamped.h"
+#include <sr_zed_interfaces/PlaneStamped.h>
 
 //#define DEBUG_SENS_TS 1
 
@@ -465,7 +465,7 @@ void ZEDWrapperNodelet::onInit()
 
     // Object detection publishers
     if (mObjDetEnabled) {
-        mPubObjDet = mNhNs.advertise<zed_interfaces::ObjectsStamped>(object_det_topic, 1);
+        mPubObjDet = mNhNs.advertise<sr_zed_interfaces::ObjectsStamped>(object_det_topic, 1);
         NODELET_INFO_STREAM("Advertised on topic " << mPubObjDet.getTopic());
     }
 
@@ -483,7 +483,7 @@ void ZEDWrapperNodelet::onInit()
     mPubMarker = mNhNs.advertise<visualization_msgs::Marker>(marker_topic, 10, true);
 
     // Detected planes publisher
-    mPubPlane = mNhNs.advertise<zed_interfaces::PlaneStamped>(plane_topic, 1);
+    mPubPlane = mNhNs.advertise<sr_zed_interfaces::PlaneStamped>(plane_topic, 1);
 
     // Camera Path
     if (mPathPubRate > 0) {
@@ -1249,7 +1249,7 @@ bool ZEDWrapperNodelet::set_pose(float xt, float yt, float zt, float rr, float p
     return (mSensor2BaseTransfValid & mSensor2CameraTransfValid & mCamera2BaseTransfValid);
 }
 
-bool ZEDWrapperNodelet::on_set_pose(zed_interfaces::set_pose::Request& req, zed_interfaces::set_pose::Response& res)
+bool ZEDWrapperNodelet::on_set_pose(sr_zed_interfaces::set_pose::Request& req, sr_zed_interfaces::set_pose::Response& res)
 {
     mInitialBasePose.resize(6);
     mInitialBasePose[0] = req.x;
@@ -1268,8 +1268,8 @@ bool ZEDWrapperNodelet::on_set_pose(zed_interfaces::set_pose::Request& req, zed_
     return true;
 }
 
-bool ZEDWrapperNodelet::on_reset_tracking(zed_interfaces::reset_tracking::Request& req,
-    zed_interfaces::reset_tracking::Response& res)
+bool ZEDWrapperNodelet::on_reset_tracking(sr_zed_interfaces::reset_tracking::Request& req,
+    sr_zed_interfaces::reset_tracking::Response& res)
 {
     if (!mPosTrackingActivated) {
         res.reset_done = false;
@@ -1285,8 +1285,8 @@ bool ZEDWrapperNodelet::on_reset_tracking(zed_interfaces::reset_tracking::Reques
     return true;
 }
 
-bool ZEDWrapperNodelet::on_reset_odometry(zed_interfaces::reset_odometry::Request& req,
-    zed_interfaces::reset_odometry::Response& res)
+bool ZEDWrapperNodelet::on_reset_odometry(sr_zed_interfaces::reset_odometry::Request& req,
+    sr_zed_interfaces::reset_odometry::Response& res)
 {
     mResetOdom = true;
     res.reset_done = true;
@@ -1419,7 +1419,7 @@ bool ZEDWrapperNodelet::start_obj_detect()
         std::string object_det_topic_root = "obj_det";
         std::string object_det_topic = object_det_topic_root + "/objects";
 
-        mPubObjDet = mNhNs.advertise<zed_interfaces::ObjectsStamped>(object_det_topic, 1);
+        mPubObjDet = mNhNs.advertise<sr_zed_interfaces::ObjectsStamped>(object_det_topic, 1);
         NODELET_INFO_STREAM("Advertised on topic " << mPubObjDet.getTopic());
     }
 
@@ -1538,8 +1538,8 @@ void ZEDWrapperNodelet::start_pos_tracking()
     }
 }
 
-bool ZEDWrapperNodelet::on_save_area_memory(zed_interfaces::save_area_memory::Request& req,
-    zed_interfaces::save_area_memory::Response& res)
+bool ZEDWrapperNodelet::on_save_area_memory(sr_zed_interfaces::save_area_memory::Request& req,
+    sr_zed_interfaces::save_area_memory::Response& res)
 {
     std::string file_path = sl_tools::resolveFilePath(req.area_memory_filename);
 
@@ -3960,8 +3960,8 @@ void ZEDWrapperNodelet::callback_updateDiagnostic(diagnostic_updater::Diagnostic
     }
 }
 
-bool ZEDWrapperNodelet::on_start_svo_recording(zed_interfaces::start_svo_recording::Request& req,
-    zed_interfaces::start_svo_recording::Response& res)
+bool ZEDWrapperNodelet::on_start_svo_recording(sr_zed_interfaces::start_svo_recording::Request& req,
+    sr_zed_interfaces::start_svo_recording::Response& res)
 {
     std::lock_guard<std::mutex> lock(mRecMutex);
 
@@ -4024,8 +4024,8 @@ bool ZEDWrapperNodelet::on_start_svo_recording(zed_interfaces::start_svo_recordi
     return true;
 }
 
-bool ZEDWrapperNodelet::on_stop_svo_recording(zed_interfaces::stop_svo_recording::Request& req,
-    zed_interfaces::stop_svo_recording::Response& res)
+bool ZEDWrapperNodelet::on_stop_svo_recording(sr_zed_interfaces::stop_svo_recording::Request& req,
+    sr_zed_interfaces::stop_svo_recording::Response& res)
 {
     std::lock_guard<std::mutex> lock(mRecMutex);
 
@@ -4046,8 +4046,8 @@ bool ZEDWrapperNodelet::on_stop_svo_recording(zed_interfaces::stop_svo_recording
     return true;
 }
 
-bool ZEDWrapperNodelet::on_start_remote_stream(zed_interfaces::start_remote_stream::Request& req,
-    zed_interfaces::start_remote_stream::Response& res)
+bool ZEDWrapperNodelet::on_start_remote_stream(sr_zed_interfaces::start_remote_stream::Request& req,
+    sr_zed_interfaces::start_remote_stream::Response& res)
 {
     if (mStreaming) {
         res.result = false;
@@ -4106,8 +4106,8 @@ bool ZEDWrapperNodelet::on_start_remote_stream(zed_interfaces::start_remote_stre
     return true;
 }
 
-bool ZEDWrapperNodelet::on_stop_remote_stream(zed_interfaces::stop_remote_stream::Request& req,
-    zed_interfaces::stop_remote_stream::Response& res)
+bool ZEDWrapperNodelet::on_stop_remote_stream(sr_zed_interfaces::stop_remote_stream::Request& req,
+    sr_zed_interfaces::stop_remote_stream::Response& res)
 {
     if (mStreaming) {
         mZed.disableStreaming();
@@ -4120,8 +4120,8 @@ bool ZEDWrapperNodelet::on_stop_remote_stream(zed_interfaces::stop_remote_stream
     return true;
 }
 
-bool ZEDWrapperNodelet::on_set_led_status(zed_interfaces::set_led_status::Request& req,
-    zed_interfaces::set_led_status::Response& res)
+bool ZEDWrapperNodelet::on_set_led_status(sr_zed_interfaces::set_led_status::Request& req,
+    sr_zed_interfaces::set_led_status::Response& res)
 {
     if (mCamFwVersion < 1523) {
         NODELET_WARN_STREAM("To set the status of the blue LED the camera must be updated to FW 1523 or newer");
@@ -4133,8 +4133,8 @@ bool ZEDWrapperNodelet::on_set_led_status(zed_interfaces::set_led_status::Reques
     return true;
 }
 
-bool ZEDWrapperNodelet::on_toggle_led(zed_interfaces::toggle_led::Request& req,
-    zed_interfaces::toggle_led::Response& res)
+bool ZEDWrapperNodelet::on_toggle_led(sr_zed_interfaces::toggle_led::Request& req,
+    sr_zed_interfaces::toggle_led::Response& res)
 {
     if (mCamFwVersion < 1523) {
         NODELET_WARN_STREAM("To set the status of the blue LED the camera must be updated to FW 1523 or newer");
@@ -4148,8 +4148,8 @@ bool ZEDWrapperNodelet::on_toggle_led(zed_interfaces::toggle_led::Request& req,
     return (new_status == 1);
 }
 
-bool ZEDWrapperNodelet::on_start_3d_mapping(zed_interfaces::start_3d_mapping::Request& req,
-    zed_interfaces::start_3d_mapping::Response& res)
+bool ZEDWrapperNodelet::on_start_3d_mapping(sr_zed_interfaces::start_3d_mapping::Request& req,
+    sr_zed_interfaces::start_3d_mapping::Response& res)
 {
     if (mMappingEnabled && mMappingRunning) {
         NODELET_WARN_STREAM("Spatial mapping was just running");
@@ -4174,8 +4174,8 @@ bool ZEDWrapperNodelet::on_start_3d_mapping(zed_interfaces::start_3d_mapping::Re
     return res.done;
 }
 
-bool ZEDWrapperNodelet::on_stop_3d_mapping(zed_interfaces::stop_3d_mapping::Request& req,
-    zed_interfaces::stop_3d_mapping::Response& res)
+bool ZEDWrapperNodelet::on_stop_3d_mapping(sr_zed_interfaces::stop_3d_mapping::Request& req,
+    sr_zed_interfaces::stop_3d_mapping::Response& res)
 {
     if (mMappingEnabled) {
         mPubFusedCloud.shutdown();
@@ -4191,8 +4191,8 @@ bool ZEDWrapperNodelet::on_stop_3d_mapping(zed_interfaces::stop_3d_mapping::Requ
     return res.done;
 }
 
-bool ZEDWrapperNodelet::on_save_3d_map(zed_interfaces::save_3d_map::Request& req,
-    zed_interfaces::save_3d_map::Response& res)
+bool ZEDWrapperNodelet::on_save_3d_map(sr_zed_interfaces::save_3d_map::Request& req,
+    sr_zed_interfaces::save_3d_map::Response& res)
 {
     if (!mMappingEnabled) {
         res.result = false;
@@ -4228,8 +4228,8 @@ bool ZEDWrapperNodelet::on_save_3d_map(zed_interfaces::save_3d_map::Request& req
     return true;
 }
 
-bool ZEDWrapperNodelet::on_start_object_detection(zed_interfaces::start_object_detection::Request& req,
-    zed_interfaces::start_object_detection::Response& res)
+bool ZEDWrapperNodelet::on_start_object_detection(sr_zed_interfaces::start_object_detection::Request& req,
+    sr_zed_interfaces::start_object_detection::Response& res)
 {
     NODELET_INFO("Called 'start_object_detection' service");
 
@@ -4300,8 +4300,8 @@ bool ZEDWrapperNodelet::on_start_object_detection(zed_interfaces::start_object_d
 
 /*! \brief Service callback to stop_object_detection service
  */
-bool ZEDWrapperNodelet::on_stop_object_detection(zed_interfaces::stop_object_detection::Request& req,
-    zed_interfaces::stop_object_detection::Response& res)
+bool ZEDWrapperNodelet::on_stop_object_detection(sr_zed_interfaces::stop_object_detection::Request& req,
+    sr_zed_interfaces::stop_object_detection::Response& res)
 {
     if (mObjDetEnabled) {
         mObjDetMutex.lock();
@@ -4348,7 +4348,7 @@ void ZEDWrapperNodelet::processDetectedObjects(ros::Time t)
 
     size_t objCount = objects.object_list.size();
 
-    zed_interfaces::ObjectsStampedPtr objMsg = boost::make_shared<zed_interfaces::ObjectsStamped>();
+    sr_zed_interfaces::ObjectsStampedPtr objMsg = boost::make_shared<sr_zed_interfaces::ObjectsStamped>();
     objMsg->header.stamp = t;
     objMsg->header.frame_id = mLeftCamFrameId;
 
@@ -4603,7 +4603,7 @@ void ZEDWrapperNodelet::clickedPtCallback(geometry_msgs::PointStampedConstPtr ms
     if (planeSubNumber > 0) {
         // ----> Publish the plane as custom message
 
-        zed_interfaces::PlaneStampedPtr planeMsg = boost::make_shared<zed_interfaces::PlaneStamped>();
+        sr_zed_interfaces::PlaneStampedPtr planeMsg = boost::make_shared<sr_zed_interfaces::PlaneStamped>();
         planeMsg->header.stamp = ts;
         planeMsg->header.frame_id = mLeftCamFrameId;
 

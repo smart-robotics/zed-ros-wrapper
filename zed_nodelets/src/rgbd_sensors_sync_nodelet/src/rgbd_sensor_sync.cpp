@@ -70,7 +70,7 @@ void RgbdSensorsSyncNodelet::onInit()
 
   readParameters();
 
-  mPubRaw = mNhP.advertise<zed_interfaces::RGBDSensors>("rgbd_sens", 1);
+  mPubRaw = mNhP.advertise<sr_zed_interfaces::RGBDSensors>("rgbd_sens", 1);
   NODELET_INFO_STREAM("Advertised on topic " << mPubRaw.getTopic());
 
   if (mUseApproxSync)
@@ -237,7 +237,7 @@ void RgbdSensorsSyncNodelet::callbackRGBD(const sensor_msgs::ImageConstPtr &rgb,
     return;
   }
 
-  zed_interfaces::RGBDSensorsPtr outSyncMsg = boost::make_shared<zed_interfaces::RGBDSensors>();
+  sr_zed_interfaces::RGBDSensorsPtr outSyncMsg = boost::make_shared<sr_zed_interfaces::RGBDSensors>();
 
   outSyncMsg->header.frame_id = rgb->header.frame_id;
   outSyncMsg->header.stamp = rgb->header.stamp;
@@ -294,7 +294,7 @@ void RgbdSensorsSyncNodelet::callbackRGBDIMU(const sensor_msgs::ImageConstPtr &r
     return;
   }
 
-  zed_interfaces::RGBDSensorsPtr outSyncMsg = boost::make_shared<zed_interfaces::RGBDSensors>();
+  sr_zed_interfaces::RGBDSensorsPtr outSyncMsg = boost::make_shared<sr_zed_interfaces::RGBDSensors>();
 
   outSyncMsg->header.frame_id = rgb->header.frame_id;
   outSyncMsg->header.stamp = rgb->header.stamp;
@@ -352,7 +352,7 @@ void RgbdSensorsSyncNodelet::callbackRGBDMag(const sensor_msgs::ImageConstPtr &r
     return;
   }
 
-  zed_interfaces::RGBDSensorsPtr outSyncMsg = boost::make_shared<zed_interfaces::RGBDSensors>();
+  sr_zed_interfaces::RGBDSensorsPtr outSyncMsg = boost::make_shared<sr_zed_interfaces::RGBDSensors>();
 
   outSyncMsg->header.frame_id = rgb->header.frame_id;
   outSyncMsg->header.stamp = rgb->header.stamp;
@@ -414,7 +414,7 @@ void RgbdSensorsSyncNodelet::callbackFull(const sensor_msgs::ImageConstPtr &rgb,
     return;
   }
 
-  zed_interfaces::RGBDSensorsPtr outSyncMsg = boost::make_shared<zed_interfaces::RGBDSensors>();
+  sr_zed_interfaces::RGBDSensorsPtr outSyncMsg = boost::make_shared<sr_zed_interfaces::RGBDSensors>();
 
   outSyncMsg->header.frame_id = rgb->header.frame_id;
   outSyncMsg->header.stamp = rgb->header.stamp;

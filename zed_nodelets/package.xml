@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <package format="2">
-    <name>zed_nodelets</name>
-    <version>3.5.0</version>
+    <name>sr_zed_nodelets</name>
+    <version>3.7.0</version>
     <description>zed_nodelets is package containing all the nodelets provided by the ZED ROS wrapper.</description>
 
     <maintainer email="support@stereolabs.com">STEREOLABS</maintainer>
     <license>MIT</license>
 
     <url type="website">http://stereolabs.com/</url>
-    <url type="repository">https://github.com/stereolabs/zed-ros-wrapper</url>
+    <url type="repository">https://github.com/smart-robotics/zed-ros-wrapper</url>
     <url type="bugtracker">https://github.com/stereolabs/zed-ros-wrapper/issues</url>
 
     <buildtool_depend>catkin</buildtool_depend>
@@ -28,9 +28,9 @@
     <depend>geometry_msgs</depend>
     <depend>visualization_msgs</depend>    
 
-    <build_depend>zed_interfaces</build_depend>
+    <build_depend>sr_zed_interfaces</build_depend>
 
-    <exec_depend>zed_interfaces</exec_depend>
+    <exec_depend>sr_zed_interfaces</exec_depend>
     <exec_depend>xacro</exec_depend>
     <exec_depend>urdf</exec_depend>
     <exec_depend>robot_state_publisher</exec_depend>

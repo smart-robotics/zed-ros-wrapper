@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(zed_nodelets)
+project(sr_zed_nodelets)
 
 # if CMAKE_BUILD_TYPE is not specified, take 'Release' as default
 IF(NOT CMAKE_BUILD_TYPE)
@@ -19,24 +19,24 @@ function(checkPackage package customMessage)
     endif()
 endfunction(checkPackage)
 
-find_package(ZED 3)
-checkPackage("ZED" "ZED SDK v3.x not found, install it from:\n https://www.stereolabs.com/developers/")
+#find_package(ZED 3)
+#checkPackage("ZED" "ZED SDK v3.x not found, install it from:\n https://www.stereolabs.com/developers/")
 
-exec_program(uname ARGS -p OUTPUT_VARIABLE CMAKE_SYSTEM_NAME2)
-if ( CMAKE_SYSTEM_NAME2 MATCHES "aarch64" ) # Jetson TX
-    SET(CUDA_USE_STATIC_CUDA_RUNTIME OFF)
-endif()
+#exec_program(uname ARGS -p OUTPUT_VARIABLE CMAKE_SYSTEM_NAME2)
+#if ( CMAKE_SYSTEM_NAME2 MATCHES "aarch64" ) # Jetson TX
+#    SET(CUDA_USE_STATIC_CUDA_RUNTIME OFF)
+#endif()
 
-find_package(CUDA)
-checkPackage("CUDA" "CUDA not found, install it from:\n https://developer.nvidia.com/cuda-downloads")
+#find_package(CUDA)
+#checkPackage("CUDA" "CUDA not found, install it from:\n https://developer.nvidia.com/cuda-downloads")
 
-find_package(OpenMP)
-checkPackage("OpenMP" "OpenMP not found, please install it to improve performances: 'sudo apt install libomp-dev'")
-if (OPENMP_FOUND)
-    set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
-    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-    set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
-endif()
+#find_package(OpenMP)
+#checkPackage("OpenMP" "OpenMP not found, please install it to improve performances: 'sudo apt install libomp-dev'")
+#if (OPENMP_FOUND)
+#    set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+#    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+#    set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
+#endif()
 
 find_package(catkin REQUIRED COMPONENTS
     roscpp
@@ -52,7 +52,7 @@ find_package(catkin REQUIRED COMPONENTS
     message_generation
     diagnostic_updater    
     dynamic_reconfigure
-    zed_interfaces
+    sr_zed_interfaces
 )
 
 generate_dynamic_reconfigure_options(
@@ -71,7 +71,7 @@ catkin_package(
     tf2_ros
     tf2_geometry_msgs
     message_runtime    
-    zed_interfaces
+    sr_zed_interfaces
     geometry_msgs
     visualization_msgs
 )
