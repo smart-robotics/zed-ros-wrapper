@@ -1,4 +1,4 @@
 [submodule "zed-ros-interfaces"]
 	path = zed-ros-interfaces
-	url = https://github.com/stereolabs/zed-ros-interfaces.git
-	branch = main
+	url = https://github.com/smart-robotics/zed-ros-interfaces.git
+	branch = v1.2.1
